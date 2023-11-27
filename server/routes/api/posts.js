@@ -23,14 +23,17 @@ router.post('/', async (req, res) => {
 
 
 async function loadPostsCollection() {
-  const client = await mongodb.MongoClient.connect(
-    'mongodb+srv://Admin:Man5576man5576@cluster3.zeidtr6.mongodb.net/?retryWrites=true&w=majority',
-    {
-      useNewUrlParser: true
-    }
-  );
-
-  return client.db('vue_express').collection('posts');
+  try {
+    const client = await mongodb.MongoClient.connect(
+      'mongodb+srv://Admin:Man5576man5576@cluster3.zeidtr6.mongodb.net/?retryWrites=true&w=majority',
+      {
+        useNewUrlParser: true
+      }
+    );
+    return client.db('vue_express').collection('posts');
+  } catch (err) {
+    console.error('Error connecting to MongoDB:', err);
+    throw err; // Propagate the error
+  }
 }
-
 module.exports = router;
